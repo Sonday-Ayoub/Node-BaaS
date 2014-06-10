@@ -1,0 +1,198 @@
+/**
+ * Created by BENJEYED Haitam on 19/05/14.
+ */
+
+    var destApp = angular.module('destinationsCtrl',[]);
+
+
+ /***************************************** CONTROLLER ************************************************************/
+    destApp.controller('destinationsController', function($scope,$http,$location,destination) {
+       console.log('Destinations Controller Charged !');
+
+        $scope.destination = {};                  // Form Data that will be send to the node api to create a new destination
+        $scope.newDestination = {};              // Form Data that will be send to the node api to modify a destination
+        $scope.destinations = {};               // All destinations provided by get() service
+        $scope.oldDest={};                     // Old destination that will be updated
+        $scope.option='';                     // Show list, add, modify or delete a destination
+        $scope.lat='';                       // lat of the destination
+        $scope.lng='';                      // lng of the destination
+
+
+
+        // Form Validation ====================================================================================================
+
+
+        $scope.SetPristine = function() {
+            $scope.destinationForm.$setPristine();
+            $scope.modifyForm.$setPristine();
+        };
+
+        $scope.submitForm = function(isValid) {
+
+            // check to make sure the form is completely valid
+            if (isValid) {
+                console.log('Valid form !');
+                $scope.SetPristine();
+            }
+        };
+
+        $scope.modify = function(oldDest) {
+            $scope.option='newvalues';
+            $scope.oldDest=oldDest;
+        };
+
+        $scope.displayDestination = function(destToDisplay) {
+            $scope.destToDisplay=destToDisplay;
+            $scope.lat=$scope.destToDisplay.latitude;
+            $scope.lng=$scope.destToDisplay.longitude;
+            $scope.option='display';
+        };
+
+
+        /*********************************************************************************************************************/
+
+
+        // GET ================================================================================================================
+        // when landing on the page, get all Destinations and show them
+        // use the service to get all the Destinations
+        destination.get()
+
+            .success(function(data) {
+                $scope.destinations = data; // assign the list of destinations
+            });
+
+
+        /*********************************************************************************************************************/
+
+
+        // CREATE =============================================================================================================
+        // when submitting the add form, send the new destination to the node API
+        // use the service to add a new Destination
+        $scope.createDestination  = function () {
+
+            destination.create($scope.destination)
+                .success(function(data) {
+                    $scope.destination={};       // clear the form so another user can use it
+                    $scope.destinations=data;   // assign the new list of destinations after adding a new one
+                    $scope.option ='list';  // go to the destinations list
+                });
+        };
+
+
+        /*********************************************************************************************************************/
+
+
+        // DELETE =============================================================================================================
+        // delete a destination after selecting it
+        // use the service to delete a Destination
+        $scope.deleteDestination = function(id) {
+            destination.delete(id)
+
+                .success(function(data) {
+                    $scope.destinations = data;  // assign our new list of destinations
+                });
+
+        };
+
+
+        /*********************************************************************************************************************/
+
+
+        // MODIFY =============================================================================================================
+        // modify a destination
+        // use the service to modify a Destination
+        $scope.modifyDestination = function(id) {
+            destination.delete(id)
+
+                .success(function(data) {
+                    $scope.destinations = data;         // assign our new list of destinations
+                });
+            destination.create($scope.newDestination)
+
+                .success(function(data) {
+                    $scope.newDestination={};       // clear the form so another user can use it
+                    $scope.destinations=data;      // assign the new list of destinations after the update
+                    $scope.option ='modify';      // Redirect to modify option
+                });
+
+        };
+
+    });
+/*********************************************************************************************************************/
+
+
+/******************************************* FlOAT-REGEXP **********************************************************/
+    var FLOAT_REGEXP = /^\-?\d+((\.|\,)\d+)?$/;
+    destApp.directive('smartFloat', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, elm, attrs, ctrl) {
+            ctrl.$parsers.unshift(function(viewValue) {
+                if (FLOAT_REGEXP.test(viewValue)) {
+                    ctrl.$setValidity('float', true);
+                    return parseFloat(viewValue.replace(',', '.'));
+                } else {
+                    ctrl.$setValidity('float', false);
+                    return undefined;
+                  }
+             });
+         }
+        };
+    });
+/*********************************************************************************************************************/
+
+
+/******************************************* GoogleMaps **********************************************************/
+    destApp.directive('helloMaps', function () {
+       return function (scope, elem, attrs) {
+         var mapOptions,
+            latitude = '33.533333',
+            longitude = '7.583333',
+            map,
+            marker;
+        mapOptions = {
+            zoom: 12,
+            center: new google.maps.LatLng(latitude, longitude)
+        };
+        map = new google.maps.Map(elem[0], mapOptions);
+
+        marker = new google.maps.Marker({
+           position : new google.maps.LatLng(latitude,longitude),
+           map : map,
+           title : 'your destination'
+        });
+        marker.setMap(map);
+
+           // Try HTML5 geolocation
+           if(navigator.geolocation) {
+               navigator.geolocation.getCurrentPosition(function(position) {
+                   var pos = new google.maps.LatLng(position.coords.latitude,
+                       position.coords.longitude);
+
+                   var infowindow = new google.maps.InfoWindow({
+                       map: map,
+                       position: pos,
+                       content: 'Vous'
+                   });
+
+                   map.setCenter(pos);
+               }, function() {
+                   handleNoGeolocation(true);
+               });
+           } else {
+               // Browser doesn't support Geolocation
+               handleNoGeolocation(false);
+           }
+
+       }
+
+        function handleNoGeolocation(errorFlag) {
+            if (errorFlag) {
+                var content = 'Error: The Geolocation service failed.';
+            } else {
+                var content = 'Error: Your browser doesn\'t support geolocation.';
+            }
+
+        };
+});
+

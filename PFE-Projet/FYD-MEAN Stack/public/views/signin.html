@@ -1,0 +1,48 @@
+<div class="jumbotron text-center black-background spc">
+
+    <div class="container gray-background">
+
+        <div class="col-sm-6 col-sm-offset-3">
+
+            <h1><span class="fa fa-sign-in"></span> Login</h1> </br>
+
+            <!-- LOGIN FORM -->
+            <form name="loginForm" ng-submit="submitForm(loginForm.$valid)" novalidate>
+                <div class="alert alert-danger" ng-hide="loginMessage=='' " >
+                     {{loginMessage}} <a ng-show="logged" class="clickable" ng-click="logout()"> logout </a>
+                </div>
+
+                <!-- USERNAME -->
+                <div class="form-group" ng-class="{ 'has-error' : loginForm.username.$invalid && !loginForm.username.$pristine }">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="form-control" name="username" ng-model="user.username" ng-minlength="3" ng-maxlength="20" required>
+                    <p ng-show="loginForm.username.$invalid  && !loginForm.username.$pristine && !loginForm.username.$error.minlength && !loginForm.username.$error.maxlength" class="help-block">Username is required to login.</p>
+                    <p ng-show="loginForm.username.$error.minlength && !loginForm.username.$pristine" class="help-block">Too short to be a valid username.</p>
+                    <p ng-show="loginForm.username.$error.maxlength && !loginForm.username.$pristine" class="help-block">Too long to be a valid username.</p>
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="form-group" ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.password.$pristine }">
+                        <label for="password" class="form_col">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" ng-model="user.password" ng-minlength="8" ng-maxlength="20" required>
+                    <p ng-show="loginForm.password.$invalid  && !loginForm.password.$pristine && !loginForm.password.$error.minlength && !loginForm.password.$error.maxlength" class="help-block">Password is required to login.</p>
+                    <p ng-show="loginForm.password.$error.minlength && !loginForm.password.$pristine" class="help-block">Too short to be a valid password.</p>
+                    <p ng-show="loginForm.password.$error.maxlength && !loginForm.password.$pristine" class="help-block">Too long to be a valid password.</p>
+                </div>
+
+                <button type="submit" class="btn btn-warning btn-lg" ng-disabled="loginForm.$invalid" ng-click="login()">Login</button>
+                <button type="reset" class="btn btn-warning btn-lg" ng-click="SetPristine()" >Reset</button>
+            </form>
+
+            <hr>
+
+            <p>Need an account? <a class="a-Form" href="/signup">Signup</a></p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>

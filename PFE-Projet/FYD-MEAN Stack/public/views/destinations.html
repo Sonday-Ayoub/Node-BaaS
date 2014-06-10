@@ -1,0 +1,301 @@
+
+<div ng-show=" logged=='false' || logged==undefined " class="jumbotron text-center well black-background spc"> </br>
+    <img src="../img/redCard.jpg"> </br> </br>
+</div>
+
+<div ng-show=" logged=='true' " class="jumbotron text-center well black-background"> </br>
+    <div class="gray-background" > </br>
+    <span class="titre3">Manage Your Destinations</span> </br> </br>
+
+
+        <!-- SELECT OPTION -->
+    <div name="option"> </br>
+    &nbsp; <button class="btn btn-primary" ng-click=" option='list'">Destinations List</button> &nbsp;
+    &nbsp; <button class="btn btn-primary" ng-click=" option='add' ">Add Destination</button> &nbsp;
+    &nbsp; <button class="btn btn-primary" ng-click=" option='modify' ">Modify Destination</button> &nbsp;
+    &nbsp; <button class="btn btn-primary" ng-click=" option='delete' ">Delete Destination</button> &nbsp;
+        </br> </br>
+    </div>
+
+    <!-- /************************************************************************************************************************************************/ -->
+
+    <!-- WHERE NO OPTIONS ARE SELECTED YET -->
+    <p class="textleft" ng-show="option == '' || (option=='modify' && destinations.length === 0) || (option=='delete' && destinations.length === 0)"  >
+        In this section, you will find a list of your recent destinations, you will also be able to manage your
+        destinations with ease by adding, deleting or updating the destinations of your list and of course you
+        can display it on the map bellow.
+    </p> </br> </br>
+    </div>
+
+    <!-- /************************************************************************************************************************************************/ -->
+
+
+    <!-- ADD A NEW DESTINATION -->
+    <div class="well gray-background" ng-show=" option=='add' ">
+        <form  class="dark-matter gray-background" name="destinationForm" ng-submit="submitForm(destinationForm.$valid)" novalidate> <!-- novalidate prevents HTML5 validation since we will be validating ourselves -->
+            <span class="titre3 ">Add New Destinations</span> </br> </br> </br>
+            <!-- TITLE -->
+            <div class="form-group" ng-class="{ 'has-error' : destinationForm.title.$invalid && !destinationForm.title.$pristine }">
+                <label>
+                <span for="title">Title*</span>
+                <input type="text" id="title" name="title" class="form-control" ng-model="destination.title" required>
+                </label>
+                <p ng-show="destinationForm.title.$invalid && !destinationForm.title.$pristine" class="help-block">The title is required.</p>
+            </div>
+
+            <!-- CATEGORY -->
+            <div class="form-group" ng-class="{ 'has-error' : destinationForm.category.$invalid && !destinationForm.category.$pristine }">
+                <label>
+                <span for="category">Category*</span>
+                <input type="text" id="category" name="category" class="form-control" ng-model="destination.category" ng-minlength="3" ng-maxlength="50" required>
+                </label>
+                <p ng-show="destinationForm.category.$invalid  && !destinationForm.category.$pristine && !destinationForm.category.$error.minlength && !destinationForm.category.$error.maxlength" class="help-block">Category is required.</p>
+                <p ng-show="destinationForm.category.$error.minlength && !destinationForm.category.$pristine" class="help-block">Category is too short.</p>
+                <p ng-show="destinationForm.category.$error.maxlength && !destinationForm.category.$pristine" class="help-block">Category is too long.</p>
+            </div>
+
+            <!-- ADDRESS -->
+            <div class="form-group" ng-class="{ 'has-error' : destinationForm.address.$invalid && !destinationForm.address.$pristine }">
+                <label>
+                <span for="address">Address*</span>
+                <input type="text" id="address" name="address" class="form-control" ng-model="destination.address" ng-pattern="/^[a-zA-Z, 0-9éèâêç-]*$/" valid-Location ng-minlength="3" ng-maxlength="80" googleplace required>
+                </label>
+                <p ng-show="destinationForm.address.$invalid  && !destinationForm.address.$pristine && !destinationForm.address.$error.minlength && !destinationForm.address.$error.maxlength" class="help-block">Please enter a valid address.</p>
+                <p ng-show="destinationForm.address.$error.minlength && !destinationForm.address.$pristine" class="help-block">This address is too short.</p>
+                <p ng-show="destinationForm.address.$error.maxlength && !destinationForm.address.$pristine" class="help-block">Just an address not a story.</p>
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="form-group">
+                <label>
+                <span for='description'>Description</span>
+                <input type="text" id='description' name="description" class="form-control" ng-model="destination.description">
+                </label>
+            </div>
+
+            <!-- USERNAME (Auto) -->
+            <div class="form-group">
+                <label>
+                    <input ng-hide="username.length > 1 " type="text" class="form-control" ng-model="destination.username" ng-value="destination.username=username" />
+                </label>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button type="submit" class="btn btn-primary" ng-disabled="destinationForm.$invalid" ng-click="createDestination()" >Add</button> &nbsp;&nbsp;
+            <button type="reset" class="btn btn-primary" ng-click="SetPristine()">Reset</button>
+
+        </form> </br> </br>
+    </div>
+
+
+    <!-- /************************************************************************************************************************************************/ -->
+
+
+    <!-- SHOW THE DESTINATIONS -->
+    <div class="well gray-background" ng-show="option=='list' && destinations.length != 0 ">
+        <span class="titre3">Your Destinations</span> </br> </br> </br>
+        <table class="well table table-striped table-hover spacer text-left">
+
+            <thead>
+            <tr>
+                <th class="colLogo">
+                    <a>Display</a>
+                </th>
+
+                <th class="colTitle">
+                    <a> Title </a>
+                </th>
+
+                <th class="colCategory">
+                    <a>Category</a>
+                </th>
+
+                <th class="colAddress">
+                    <a>Address</a>
+                </th>
+
+                <th class="colDescription">
+                    <a>Description</a>
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="clickable" ng-repeat="dest in destinations" ng-click="displayDestination(dest)">
+                <td class="text-center"> <img class="image" src="../img/mapLogo.jpg"> </td>
+                <td> {{dest.title}}</td>
+                <td>{{dest.category}}</td>
+                <td>{{dest.address}}</td>
+                <td>{{dest.description}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- /************************************************************************************************************************************************/ -->
+
+
+    <!-- DELETE A DESTINATION -->
+    <div class="well gray-background" ng-show=" option=='delete' && destinations.length != 0 ">
+        <span class="titre3">Delete Destinations</span> </br> </br> </br>
+        <table class="well table table-striped table-hover spacer text-left">
+
+            <thead>
+            <tr>
+                <th class="colLogo">
+                    <a> Delete </a>
+                </th>
+
+                <th class="colTitle">
+                    <a> Title </a>
+                </th>
+
+                <th class="colCategory">
+                    <a>Category</a>
+                </th>
+
+                <th class="colAddress">
+                    <a>Address</a>
+                </th>
+
+                <th class="colDescription">
+                    <a>Description</a>
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr ng-repeat="dest in destinations" class="clickable" ng-click="deleteDestination(dest._id,username)">
+                <td> <img src="../img/deleteLogo.jpg" class="image"> </td>
+                <td> {{dest.title}}</td>
+                <td>{{dest.category}}</td>
+                <td>{{dest.address}}</td>
+                <td>{{dest.description}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- /************************************************************************************************************************************************/ -->
+
+
+    <!-- MODIFY A DESTINATION -->
+    <div class="well gray-background" ng-show=" ( option=='modify' || option=='newvalues' ) && destinations.length != 0 ">
+        <span class="titre3">Modify Destinations</span> </br> </br> </br>
+        <table class="well table table-striped table-hover spacer text-left">
+
+            <thead>
+            <tr>
+                <th class="colLogo">
+                    <a> Modify </a>
+                </th>
+
+                <th class="colTitle">
+                    <a> Title </a>
+                </th>
+
+                <th class="colCategory">
+                    <a>Category</a>
+                </th>
+
+                <th class="colAddress">
+                    <a>Address</a>
+                </th>
+
+                <th class="colDescription">
+                    <a>Description</a>
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr ng-repeat="dest in destinations" class="clickable" ng-click="modify(dest)">
+                <td> <img src="../img/modifyLogo.jpg" class="image"> </td>
+                <td> {{dest.title}}</td>
+                <td>{{dest.category}}</td>
+                <td>{{dest.address}}</td>
+                <td>{{dest.description}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div ng-show ="option=='newvalues'" >
+        <form class="dark-matter gray-background" name="modifyForm" ng-submit="submitForm(modifyForm.$valid)" novalidate>
+            <span class="titre3 "> Enter The New Values </span> </br> </br> </br>
+            <!-- novalidate prevents HTML5 validation since we will be validating ourselves -->
+
+            <!-- NEW TITLE -->
+            <div class="form-group" ng-class="{ 'has-error' : modifyForm.title.$invalid && !modifyForm.title.$pristine }">
+                <label>
+                <span for="newTitle">New title*</span>
+                <input type="text" id="newTitle" name="title" class="form-control" placeholder={{oldDest.title}} ng-model="newDestination.title" required>
+                </label>
+                <p ng-show="modifyForm.title.$invalid && !modifyForm.title.$pristine" class="help-block">The title is required.</p>
+            </div>
+
+            <!-- NEW CATEGORY -->
+            <div class="form-group" ng-class="{ 'has-error' : modifyForm.category.$invalid && !modifyForm.category.$pristine }">
+                <label>
+                <span for="newCategory">New category*</span>
+                <input type="text" id="newCategory" name="category" class="form-control" placeholder={{oldDest.category}} ng-model="newDestination.category" ng-minlength="3" ng-maxlength="50" required>
+                </label>
+                <p ng-show="modifyForm.category.$invalid  && !modifyForm.category.$pristine && !modifyForm.category.$error.minlength && !modifyForm.category.$error.maxlength" class="help-block">Category is required.</p>
+                <p ng-show="modifyForm.category.$error.minlength && !modifyForm.category.$pristine" class="help-block">Category is too short.</p>
+                <p ng-show="modifyForm.category.$error.maxlength && !modifyForm.category.$pristine" class="help-block">Category is too long.</p>
+            </div>
+
+            <!-- NEW ADDRESS -->
+            <div class="form-group" ng-class="{ 'has-error' :modifyForm.address.$invalid && !modifyForm.address.$pristine }">
+                <label>
+                <span for="newAddress">New address*</span>
+                <input type="text" id="newAddress" name="address" class="form-control" placeholder={{oldDest.address}} ng-model="newDestination.address" ng-pattern="/^[a-zA-Z, 0-9éèâêç]*$/" valid-Location ng-minlength="3" ng-maxlength="80" googleplace required>
+                </label>
+                <p ng-show="modifyForm.address.$invalid  && !modifyForm.address.$pristine && !modifyForm.address.$error.minlength && !modifyForm.address.$error.maxlength" class="help-block">Please enter a valid address.</p>
+                <p ng-show="modifyForm.address.$error.minlength && !modifyForm.address.$pristine" class="help-block">This address is too short.</p>
+                <p ng-show="modifyForm.address.$error.maxlength && !modifyForm.address.$pristine" class="help-block">Just an address not a story.</p>
+            </div>
+
+            <!-- NEW DESCRIPTION -->
+            <div class="form-group">
+                <label>
+                <span for='newDescription'>New description</span>
+                <input type="text" id='newDescription' name="description" class="form-control" placeholder={{oldDest.description}} ng-model="newDestination.description">
+                </label>
+            </div>
+
+            <!-- USERNAME (Auto) -->
+            <div class="form-group">
+                <label>
+                    <input ng-hide="username.length > 1 " type="text" class="form-control" ng-model="newDestination.username" ng-value="newDestination.username=username" />
+                </label>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button type="submit" class="btn btn-primary" ng-disabled="modifyForm.$invalid" ng-click="modifyDestination(oldDest._id)" >Modify</button> &nbsp;&nbsp;
+            <button type="reset" class="btn btn-primary" ng-click="SetPristine()">Reset</button>
+
+        </form> </br> </br>
+        </div>
+
+    </div>
+
+
+    <!-- /************************************************************************************************************************************************/ -->
+
+
+    <!-- Message if the user does not have any destinations yet  -->
+    <div ng-show="destinations.length == 0 && option != 'add' && option!='' ">
+    <span class="alert alert-info"> You Don't Have Any Destination Yet ! <a class="clickable" ng-click="option='add'"> Add a new destination ? </a> </span> </br> </br> </br>
+    </div>
+
+
+    <!-- /************************************************************************************************************************************************/ -->
+
+
+    <!-- Display destinations on the Map -->
+    </br> </br> <div ng-if="option=='' || option=='display' " class="google-map" Google-maps="" address={{address}}> </div> </br>
+
+
+</div>

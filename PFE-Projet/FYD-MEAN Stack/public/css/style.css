@@ -1,0 +1,207 @@
+
+body {
+    margin-top: 10px;
+    background-image:url(../img/background.png);
+    background-repeat:no-repeat;
+}
+
+.google-map{
+    width:800px;
+    height:550px;
+    margin-left:100px;
+    border:solid;
+    border-color: blue;
+}
+
+nav {
+    background-image:url(../img/test1.jpg);
+    background-repeat:repeat;
+    height: 1.39cm;
+    margin-top: 10px;
+}
+
+.footer{
+    margin-bottom: 30px;
+}
+
+
+.headSpacer {
+    margin-left: 210px;
+    font-family: Constantia,'Times new roman',Century;
+    font-size: larger;
+}
+
+li>a, div>a {
+    color : black;
+    font-family: Constantia,'Times new roman',Century;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.navSpacer {
+    margin-right: 45px;
+    font-family: Constantia,'Times new roman',Century;
+    font-size: larger;
+}
+
+.intro{
+    margin-left: 30px;
+    text-align: left;
+}
+
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {
+    background-color: #428BCA;
+    color: #ffffff;
+}
+
+.FYD-Logo{
+    width: 60px;
+    height: 28px ;
+}
+
+.titre1{
+    font-family: Constantia,'Times new roman',Century;
+    font-size: 1.3cm;
+    color: #764599;
+    text-decoration: underline;
+}
+
+.titre2{
+    font-family: Constantia,'Times new roman',Century;
+    font-size: 1.3cm;
+    color: #764599;
+    text-decoration: underline;
+}
+
+.titre3{
+    font-family: Constantia,'Times new roman',Century;
+    font-size: 1.3cm;
+    color: black;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.image {
+    width: 25px;
+    height: 25px;
+}
+
+.spc {
+    margin-top: 33px;
+}
+
+.logout{
+    color: blue;
+    font-weight: bold;
+    font-size: 0.5cm;
+}
+
+.welcome{
+    margin-right: 50px;
+    margin-bottom: 17px;
+    font-family:Constantia,'Times new roman',Century,constantia;
+    font-weight: bold;
+    font-size: 0.4cm;
+}
+
+.welcome span {
+   color: blue;
+   font-size: 0.45cm;
+}
+
+.a-Form {
+    color: blue;
+    font-weight: bold;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.colLogo {
+    width: 7%;
+}
+
+.colTitle {
+    width: 10%;
+}
+
+.colCategory {
+    width: 10%;
+}
+
+.colDescription {
+    width: 23%;
+}
+
+.colAddress {
+    width: 23%;
+}
+
+
+/* #### Dark Matter #### */
+.dark-matter {
+    width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+    background: #333;
+    padding: 20px 30px 20px 30px;
+    font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #888;
+    border:none;
+    border-radius: 5px;
+}
+
+.dark-matter label {
+    display: block;
+    margin: 0px 0px 20px;
+}
+.dark-matter label>span {
+    float: left;
+    width: 130px;
+    text-align: right;
+    margin-left: 80px;
+    padding-right: 10px;
+    margin-top: 8px;
+    color: black;
+    font-family: Arial;
+    font-size: 0.4cm;
+}
+.dark-matter input[type="text"], .dark-matter input[type="password"], .dark-matter input[type="email"] , .dark-matter textarea, .dark-matter select{
+    border: solid;
+    border-color: #5e5e5e;
+    color: #4B4B4B;
+    height: 30px;
+    margin-bottom: 16px;
+    margin-right: 6px;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 6px 12px;
+    width: 45%;
+    border-radius: 4px;
+    font: normal 14px/14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.dark-matter .button {
+    background: #FFF;
+    border: none;
+    padding: 10px 25px 10px 25px;
+    color: #333;
+    border-radius: 4px;
+}
+.dark-matter .button:hover {
+    color: #333;
+    background-color: #EBEBEB;
+}
+
+.black-background {
+    background-image:url(../img/test1.jpg);
+    background-repeat:repeat;
+}
+
+.gray-background {
+    background-image:url(../img/background.png);
+    background-repeat:no-repeat;
+}

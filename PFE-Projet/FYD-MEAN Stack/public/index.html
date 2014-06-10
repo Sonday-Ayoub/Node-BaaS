@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title> Find Your Destination </title>
+
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css"> <!-- custom styles -->
+
+
+        <!-- Angular JS -->
+        <script src="libs/angular/angular.min.js"></script>
+        <script src="libs/angular-route/angular-route.min.js"></script>
+        <script src="libs/angular-cookies/angular-cookies.js"></script>
+
+
+        <!-- Google map APIs -->
+        <script src="libs/google/google-maps/maps-api.js"></script>
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+
+
+        <!-- ANGULAR CUSTOM -->
+        <script src="js/controllers/destinationsCtrl.js"></script>
+        <script src="js/services/destinationsService.js"></script>
+        <script src="js/controllers/signupCtrl.js"></script>
+        <script src="js/controllers/signinCtrl.js"></script>
+        <script src="js/services/userService.js"></script>
+        <script src="js/controllers/mainCtrl.js"></script>
+        <script src="js/appRoutes.js"></script>
+        <script src="js/core.js"></script>
+
+    </head>
+
+    <body ng-app='F-Y-D' ng-controller="mainController">
+    <div class="container">
+        <!-- Header -->
+        <nav class="navbar">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/"> <img class="FYD-Logo" src="img/FYD.png"> Home page </a>
+            </div>
+
+            <!-- LINK TO OUR PAGES. ANGULAR HANDLES THE ROUTING HERE -->
+            <ul class="nav navbar-nav headSpacer">
+
+                <li ng-if=" logged=='true' " class="navSpacer"><a  href="/signin" ng-click="logout()">logout</a></li>
+                <li ng-if=" logged=='false' || logged==undefined " class="navSpacer"><a href="/signin" ng-click="refresh()">Authenticate</a></li>
+                <li class="navSpacer"><a href="/signup" ng-click="refresh()" >Subscribe</a></li>
+
+                <li class="navSpacer"><a href="/destinations">Destinations</a></li>
+                <li class="navSpacer"><a href="http://www.neoxia.com/contact" target="_blank">Contact Us</a></li>
+                </ul>
+
+        </nav>
+
+            <p ng-if=" username.length > 1 && username != undefined" class="text-right welcome"> Welcome Mr. <span>{{username}}</span> </p>
+
+
+        <!-- ANGULAR DYNAMIC CONTENT -->
+        <div ng-view></div>
+
+    </div>  </br>
+
+
+    <!-- FOOTER -->
+    <!--************************** FOOTER ************************** -->
+    <footer class="footer text-center">
+        <div> <img src="img/footer.png"></div>
+    </footer>
+    </body>
+
+</html>
