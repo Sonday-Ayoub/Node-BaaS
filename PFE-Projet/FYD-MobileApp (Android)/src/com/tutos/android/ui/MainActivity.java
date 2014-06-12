@@ -50,8 +50,6 @@ public class MainActivity extends Activity {
 		loginButton = (Button) findViewById(R.id.connect);
 		joinButton = (Button) findViewById(R.id.join);
 		
-		login.setText("Yushiki");
-		pass.setText("60597edd");
         
         joinButton.setOnClickListener(joinBtn);
  
@@ -182,7 +180,7 @@ public class MainActivity extends Activity {
 					/* Toast est une classe fournie par le SDK Android
 					 pour afficher les messages dans des minis pop up
 					 Le premier argument est le Context, puis
-					 le message et à la fin la durée d'affichage de ce dernier*/
+					 le message et ï¿½ la fin la durï¿½e d'affichage de ce dernier*/
 					
 					Toast.makeText(MainActivity.this,R.string.username_format_error, Toast.LENGTH_SHORT).show();
 					return;
